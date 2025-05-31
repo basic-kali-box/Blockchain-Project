@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Connexion - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Connexion</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <small class="form-text text-muted">
+                            Pour cette démo, utilisez l'un des utilisateurs prédéfinis: farmer1, processor1, distributor1, ou retailer1
+                        </small>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Se connecter</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Pas encore inscrit? <a href="/ui/register">Créer un compte</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

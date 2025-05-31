@@ -1,0 +1,218 @@
+{% extends "layout.html" %}
+
+{% block title %}Détails du produit - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Détails du produit</h1>
+        <p class="lead">ID du produit: <strong>{{ product_id }}</strong></p>
+        
+        {% if verification.authentic %}
+            <div class="alert alert-success">
+                <h5>✓ Produit authentique</h5>
+                <p class="mb-0">Ce produit a été correctement enregistré dans la blockchain et sa chaîne de traçabilité est intacte.</p>
+            </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <h5>❌ Produit non authentique</h5>
+                <p class="mb-0">Raison: {{ verification.reason }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if product_info %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Informations du produit</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Nom</dt>
+                    <dd class="col-sm-8">{{ product_info.name }}</dd>
+                    
+                    <dt class="col-sm-4">Description</dt>
+                    <dd class="col-sm-8">{{ product_info.description }}</dd>
+                    
+                    <dt class="col-sm-4">Catégorie</dt>
+                    <dd class="col-sm-8">{{ product_info.category }}</dd>
+                    
+                    <dt class="col-sm-4">Date de production</dt>
+                    <dd class="col-sm-8">{{ product_info.production_date }}</dd>
+                    
+                    <dt class="col-sm-4">Numéro de lot</dt>
+                    <dd class="col-sm-8">{{ product_info.batch_number }}</dd>
+                    
+                    <dt class="col-sm-4">Producteur</dt>
+                    <dd class="col-sm-8">{{ product_info.producer_id }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Lieu d'origine</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Adresse</dt>
+                    <dd class="col-sm-8">{{ product_info.origin_location.address }}</dd>
+                    
+                    <dt class="col-sm-4">Région</dt>
+                    <dd class="col-sm-8">{{ product_info.origin_location.region }}</dd>
+                    
+                    <dt class="col-sm-4">Pays</dt>
+                    <dd class="col-sm-8">{{ product_info.origin_location.country }}</dd>
+                    
+                    <dt class="col-sm-4">Coordonnées</dt>
+                    <dd class="col-sm-8">
+                        {{ product_info.origin_location.latitude }}, {{ product_info.origin_location.longitude }}
+                        <a href="https://maps.google.com/?q={{ product_info.origin_location.latitude }},{{ product_info.origin_location.longitude }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">Voir sur la carte</a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        
+        {% if product_info.certifications %}
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Certifications</h5>
+                </div>
+                <div class="card-body">
+                    {% for cert in product_info.certifications %}
+                        <div class="mb-3">
+                            <h6>{{ cert.certification_type }}</h6>
+                            <dl class="row mb-0">
+                                <dt class="col-sm-4">Émetteur</dt>
+                                <dd class="col-sm-8">{{ cert.issuer }}</dd>
+                                
+                                <dt class="col-sm-4">Émission</dt>
+                                <dd class="col-sm-8">{{ cert.issue_date }}</dd>
+                                
+                                <dt class="col-sm-4">Expiration</dt>
+                                <dd class="col-sm-8">{{ cert.expiry_date }}</dd>
+                                
+                                <dt class="col-sm-4">ID</dt>
+                                <dd class="col-sm-8">{{ cert.certification_id }}</dd>
+                            </dl>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<div class="card mt-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Historique du produit</h5>
+    </div>
+    <div class="card-body">
+        {% if history %}
+            <div class="product-timeline">
+                {% for entry in history %}
+                    <div class="timeline-item pb-4">
+                        <h5>
+                            {% if entry.transaction_type == 'product_registration' %}
+                                Enregistrement du produit
+                            {% elif entry.transaction_type == 'processing' %}
+                                Transformation
+                            {% elif entry.transaction_type == 'transfer' %}
+                                Transfert
+                            {% elif entry.transaction_type == 'quality_check' %}
+                                Contrôle qualité
+                            {% elif entry.transaction_type == 'retail' %}
+                                Vente au détail
+                            {% else %}
+                                {{ entry.transaction_type }}
+                            {% endif %}
+                        </h5>
+                        <p class="text-muted">{{ entry.timestamp }} | Transaction: {{ entry.transaction_id }}</p>
+                        
+                        {% if entry.transaction_type == 'product_registration' %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Producteur:</strong> {{ entry.data.producer_id }}</p>
+                                    <p><strong>Enregistré le:</strong> {{ entry.data.production_date }}</p>
+                                    <p><strong>Lieu:</strong> {{ entry.data.origin_location.address }}, {{ entry.data.origin_location.region }}, {{ entry.data.origin_location.country }}</p>
+                                </div>
+                            </div>
+                            
+                        {% elif entry.transaction_type == 'processing' %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Processeur:</strong> {{ entry.data.actor_id }} ({{ entry.data.actor_type }})</p>
+                                    <p><strong>Type de processus:</strong> {{ entry.data.process_type }}</p>
+                                    <p><strong>Description:</strong> {{ entry.data.description }}</p>
+                                </div>
+                            </div>
+                            
+                        {% elif entry.transaction_type == 'transfer' %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <strong>{{ entry.data.sender_id }}</strong> 
+                                            <small>({{ entry.data.sender_type }})</small>
+                                        </div>
+                                        <div class="text-center">
+                                            <i class="bi bi-arrow-right"></i>
+                                            <div><small>{{ entry.data.status }}</small></div>
+                                        </div>
+                                        <div>
+                                            <strong>{{ entry.data.recipient_id }}</strong>
+                                            <small>({{ entry.data.recipient_type }})</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <p><strong>Lieu de départ:</strong> {{ entry.data.departure_location.address }}, {{ entry.data.departure_location.country }}</p>
+                                    {% if entry.data.arrival_location %}
+                                        <p><strong>Lieu d'arrivée:</strong> {{ entry.data.arrival_location.address }}, {{ entry.data.arrival_location.country }}</p>
+                                    {% endif %}
+                                    <p><strong>Arrivée estimée:</strong> {{ entry.data.estimated_arrival_time or 'Non spécifié' }}</p>
+                                </div>
+                            </div>
+                        
+                        {% elif entry.transaction_type == 'quality_check' %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Contrôleur:</strong> {{ entry.data.inspector_id }}</p>
+                                    <p><strong>Résultat:</strong> {% if entry.data.passed %}Réussi✓{% else %}Échoué❌{% endif %}</p>
+                                    <p><strong>Notes:</strong> {{ entry.data.notes }}</p>
+                                </div>
+                            </div>
+                            
+                        {% elif entry.transaction_type == 'retail' %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><strong>Détaillant:</strong> {{ entry.data.retailer_id }}</p>
+                                    <p><strong>Prix:</strong> {{ entry.data.price }} {{ entry.data.currency }}</p>
+                                    <p><strong>Lieu:</strong> {{ entry.data.location.address }}, {{ entry.data.location.country }}</p>
+                                </div>
+                            </div>
+                            
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">Aucun historique trouvé pour ce produit.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Afficher la carte pour le lieu d'origine
+    document.addEventListener('DOMContentLoaded', function() {
+        // Code pour afficher la carte si nécessaire
+    });
+</script>
+{% endblock %}

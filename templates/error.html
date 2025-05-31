@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Erreur - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Une erreur est survenue</h4>
+            </div>
+            <div class="card-body text-center">
+                <div class="my-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#dc3545" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                    </svg>
+                </div>
+                <h3 class="mb-3">{{ error }}</h3>
+                <p class="mb-4">Veuillez réessayer ou contacter l'administrateur du système si le problème persiste.</p>
+                
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary">Retour</a>
+                    <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

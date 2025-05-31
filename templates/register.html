@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Inscription - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Créer un compte</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Rôle dans la chaîne d'approvisionnement</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" selected disabled>-- Sélectionnez un rôle --</option>
+                            <option value="producer">Producteur</option>
+                            <option value="processor">Transformateur</option>
+                            <option value="distributor">Distributeur</option>
+                            <option value="retailer">Détaillant</option>
+                            <option value="certifier">Certificateur</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="organization" class="form-label">Organisation</label>
+                        <input type="text" class="form-control" id="organization" name="organization" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">S'inscrire</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Déjà inscrit? <a href="/ui/login">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

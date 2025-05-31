@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}Transférer un produit - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Transférer un produit</h1>
+        <p class="lead">Transférez un produit à un autre acteur de la chaîne d'approvisionnement</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Détails du transfert</h5>
+    </div>
+    <div class="card-body">
+        {% if not owned_products %}
+            <div class="alert alert-info">
+                <h5>Aucun produit disponible</h5>
+                <p>Vous n'avez actuellement aucun produit à transférer. Veuillez d'abord enregistrer un produit ou attendez qu'un produit vous soit transféré.</p>
+                <a href="/ui/register_product" class="btn btn-primary">Enregistrer un nouveau produit</a>
+            </div>
+        {% else %}
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="product_id" class="form-label">Produit à transférer</label>
+                        <select class="form-select" id="product_id" name="product_id" required>
+                            <option value="" selected disabled>-- Sélectionnez un produit --</option>
+                            {% for product_id in owned_products %}
+                                <option value="{{ product_id }}">{{ product_id }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="recipient" class="form-label">Destinataire</label>
+                        <select class="form-select" id="recipient" name="recipient" required>
+                            <option value="" selected disabled>-- Sélectionnez un destinataire --</option>
+                            {% for user in other_users %}
+                                <option value="{{ user }}">{{ user }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Lieu de départ</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="address" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="region" class="form-label">Région</label>
+                        <input type="text" class="form-control" id="region" name="region" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="country" class="form-label">Pays</label>
+                        <input type="text" class="form-control" id="country" name="country" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="number" step="0.000001" class="form-control" id="latitude" name="latitude" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="number" step="0.000001" class="form-control" id="longitude" name="longitude" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="arrival_time" class="form-label">Date d'arrivée estimée</label>
+                        <input type="date" class="form-control" id="arrival_time" name="arrival_time" required>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Transférer le produit</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Géolocalisation automatique (pour la démo)
+    document.addEventListener('DOMContentLoaded', function() {
+        // Valeurs par défaut (pour la démo)
+        document.getElementById('latitude').value = 48.8566;  // Paris comme exemple
+        document.getElementById('longitude').value = 2.3522;
+        document.getElementById('address').value = "123 Rue Example";
+        document.getElementById('region').value = "Île-de-France";
+        document.getElementById('country').value = "France";
+
+        // Date d'arrivée estimée - par défaut dans une semaine
+        const nextWeek = new Date();
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        document.getElementById('arrival_time').value = nextWeek.toISOString().split('T')[0];
+        
+        // Try to get actual location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                document.getElementById('latitude').value = position.coords.latitude;
+                document.getElementById('longitude').value = position.coords.longitude;
+            });
+        }
+    });
+</script>
+{% endblock %}

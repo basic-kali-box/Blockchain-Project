@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Transfert Effectué - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Transfert effectué avec succès !</h4>
+            </div>
+            <div class="card-body text-center">
+                <div class="my-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#198754" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg>
+                </div>
+                <h2 class="mb-4">Le produit a été transféré</h2>
+                <p class="lead">Le produit <strong>{{ product_id }}</strong> a été transféré à <strong>{{ recipient }}</strong>.</p>
+                <p class="mb-5">Ce transfert a été enregistré de manière permanente et immuable sur la blockchain. Toute personne ayant accès à l'identifiant du produit pourra voir ce transfert dans l'historique du produit.</p>
+                
+                <div class="d-grid gap-3 col-md-8 mx-auto">
+                    <a href="/ui/product/{{ product_id }}" class="btn btn-primary btn-lg">Voir les détails du produit</a>
+                    <a href="/ui/transfer_product" class="btn btn-outline-success">Effectuer un autre transfert</a>
+                    <a href="/ui/dashboard" class="btn btn-outline-secondary">Retour au tableau de bord</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}Rechercher un produit - Traçabilité Blockchain{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Rechercher un produit</h1>
+        <p class="lead">Consultez l'historique et vérifiez l'authenticité d'un produit</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Recherche par ID du produit</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" class="row align-items-end">
+            <div class="col-md-8 mb-3">
+                <label for="product_id" class="form-label">ID du produit</label>
+                <input type="text" class="form-control form-control-lg" id="product_id" name="product_id" placeholder="Ex: PROD-1234" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button type="submit" class="btn btn-success btn-lg w-100">Rechercher</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>Comment vérifier un produit durable ?</h3>
+        <p>Chaque produit tracé sur notre blockchain dispose d'un identifiant unique. Vous pouvez le trouver :</p>
+        <ul>
+            <li>Sur l'étiquette du produit (généralement sous forme de code QR ou d'identifiant alphanumérique)</li>
+            <li>Sur le certificat d'authenticité fourni avec le produit</li>
+            <li>En contactant directement le producteur ou le détaillant</li>
+        </ul>
+        
+        <h3 class="mt-4">Que pouvez-vous vérifier ?</h3>
+        <div class="row mt-3">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Origine</h5>
+                        <p class="card-text">Vérifiez où et quand le produit a été produit, avec des informations sur le producteur.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Parcours</h5>
+                        <p class="card-text">Suivez le chemin complet du produit à travers la chaîne d'approvisionnement.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Authenticité</h5>
+                        <p class="card-text">Confirmez que le produit est authentique et que sa chaîne de traçabilité est intacte.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
