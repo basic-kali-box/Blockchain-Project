@@ -3,9 +3,16 @@ import binascii
 import os
 import json
 import uuid
-from Cryptodome.PublicKey import RSA
-from Cryptodome.Signature import pkcs1_15
-from Cryptodome.Hash import SHA256
+# Try to import from Crypto (alternative name for pycryptodome) first, then fall back to Cryptodome
+try:
+    from Crypto.PublicKey import RSA
+    from Crypto.Signature import pkcs1_15
+    from Crypto.Hash import SHA256
+except ImportError:
+    # Fall back to Cryptodome if Crypto is not available
+    from Cryptodome.PublicKey import RSA
+    from Cryptodome.Signature import pkcs1_15
+    from Cryptodome.Hash import SHA256
 from typing import Dict, Tuple, Optional, Any
 
 

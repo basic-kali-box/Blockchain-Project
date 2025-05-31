@@ -392,6 +392,8 @@ def ui_transfer_product():
                     'country': request.form.get('country'),
                     'region': request.form.get('region')
                 },
+                # Set arrival_location to None since the product is just starting its journey
+                'arrival_location': None,
                 'estimated_arrival_time': request.form.get('arrival_time'),
                 'transport_conditions': {},
                 'status': 'initiated',

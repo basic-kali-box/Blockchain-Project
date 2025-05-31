@@ -223,7 +223,16 @@ def transaction_factory(transaction_type: str, data: Dict[str, Any]) -> Dict[str
             data['origin_location'] = Location(**data['origin_location'])
         
         if 'certifications' in data and isinstance(data['certifications'], list):
-            data['certifications'] = [Certification(**cert) for cert in data['certifications']]
+            # Check if each certification is already a Certification object or needs to be converted
+            new_certifications = []
+            for cert in data['certifications']:
+                if isinstance(cert, Certification):
+                    new_certifications.append(cert)
+                elif isinstance(cert, dict):
+                    new_certifications.append(Certification(**cert))
+                else:
+                    raise ValueError(f"Certification data must be a dict or Certification object, not {type(cert)}" )
+            data['certifications'] = new_certifications
         
         return ProductRegistration(**data).to_dict()
     
