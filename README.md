@@ -62,7 +62,7 @@ pip install -r requirements.txt
 
 #### Lancement
 ```bash
-python app.py
+python supply_chain_app.py
 ```
 
 #### Utilisation de l'API
